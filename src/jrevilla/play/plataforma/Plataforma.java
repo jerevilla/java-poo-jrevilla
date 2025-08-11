@@ -4,6 +4,7 @@ import jrevilla.play.contenido.Pelicula;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Plataforma {
     private String nombre;
@@ -20,10 +21,9 @@ public class Plataforma {
 
     public void mostrarTitulos() {
 
-        for (Pelicula pelicula : contenido) {
-            System.out.println(pelicula.getTitulo());
-        }
-
+        contenido.forEach(contenido -> System.out.println(contenido.getTitulo()));
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
 //        for (int i = 0; i < contenido.size(); i++) {
 //            System.out.println(contenido.get(i).getTitulo());
 //        }
@@ -34,10 +34,16 @@ public class Plataforma {
     }
 
     public Pelicula buscarPorTitulo(String titulo) {
-        for (Pelicula pelicula : contenido) {
-            if (pelicula.getTitulo().equalsIgnoreCase(titulo)) return pelicula;
-        }
-        return null;
+        return contenido.stream()
+                .filter(contenido -> contenido.getTitulo().equalsIgnoreCase(titulo))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public List<Pelicula> buscarPorGenero(String genero) {
+        return contenido.stream()
+                .filter(contenido -> contenido.getGenero().equalsIgnoreCase(genero))
+                .toList();
     }
 
     public String getNombre() {

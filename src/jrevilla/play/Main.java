@@ -5,6 +5,8 @@ import jrevilla.play.plataforma.Plataforma;
 import jrevilla.play.plataforma.Usuario;
 import jrevilla.play.util.ScannerUtils;
 
+import java.util.List;
+
 
 public class Main {
 
@@ -14,8 +16,9 @@ public class Main {
     public static final int AGREGAR = 1;
     public static final int MOSTRAR_TODO = 2;
     public static final int BUSCAR_POR_TITULO = 3;
-    public static final int ELIMINAR = 4;
-    public static final int SALIR = 5;
+    public static final int BUSCAR_POR_GENERO = 4;
+    public static final int ELIMINAR = 8;
+    public static final int SALIR = 9;
 
 
 
@@ -29,11 +32,14 @@ public class Main {
 
         while(true) {
             int opcionElegida = ScannerUtils.capturarNumero("""
-                    1. Agregar contenido
-                    2. Mostrar todo
-                    3. Buscar titulo
-                    4. Eliminar
-                    5. Salir
+                    ============MENU==================
+                        1. Agregar contenido          
+                        2. Mostrar todo               
+                        3. Buscar titulo 
+                        4. Buscar por Genero             
+                        8. Eliminar                   
+                        9. Salir                      
+                    ===================================
                     """);
 
             switch (opcionElegida) {
@@ -54,6 +60,13 @@ public class Main {
                     } else {
                         System.out.println(nombreBuscado + " no existe dentro de " + plataforma.getNombre());
                     }
+                }
+                case BUSCAR_POR_GENERO -> {
+                    String generoBuscado = ScannerUtils.capturarTexto("Género del contenido a buscar");
+
+                    List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
+                    System.out.println(contenidoPorGenero.size() + " encontrados para el género " + generoBuscado);
+                    contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()));
                 }
                 case ELIMINAR -> {
                     String nombreAEliminar = ScannerUtils.capturarTexto("Nombre de la pelicula a eliminar: ");
