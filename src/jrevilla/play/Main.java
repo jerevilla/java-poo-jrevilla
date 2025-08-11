@@ -1,12 +1,10 @@
 package jrevilla.play;
 
 import jrevilla.play.contenido.Pelicula;
+import jrevilla.play.plataforma.Plataforma;
 import jrevilla.play.plataforma.Usuario;
 import jrevilla.play.util.ScannerUtils;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Scanner;
 
 public class Main {
 
@@ -16,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-
+        Plataforma plataforma = new Plataforma(NOMBRE_PLATAFORMA);
         System.out.println(NOMBRE_PLATAFORMA + " v" + VERSION);
 
         String nombre = ScannerUtils.capturarTexto("Nombre del contenido");
@@ -25,8 +23,15 @@ public class Main {
         double calificacion = ScannerUtils.capturarDecimal("Calificación del contenido");
 
         Pelicula pelicula = new Pelicula(nombre, duracion,genero, calificacion);
+        Pelicula pelicula1 = new Pelicula("F1 the Movie", 220, "Acción");
 
-        System.out.println(pelicula.obtenerFichaTecnica());
+        plataforma.agregar(pelicula);
+        plataforma.agregar(pelicula1);
+        System.out.println("Número de elementos de la plataforma " + plataforma.getContenido().size());
+
+        plataforma.eliminar(pelicula1);
+//        System.out.println(pelicula.obtenerFichaTecnica());
+        plataforma.mostrarTitulos();
 
         Usuario usuario = new Usuario("Juan", "juang@gmail.com");
         usuario.ver(pelicula);
