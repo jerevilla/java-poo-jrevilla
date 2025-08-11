@@ -41,6 +41,7 @@ public class Pelicula {
         }
     }
 
+
     public boolean esPopular() {
         return calificacion >= 4;
     }
