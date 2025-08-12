@@ -2,6 +2,7 @@ package jrevilla.play;
 
 import jrevilla.play.contenido.Genero;
 import jrevilla.play.contenido.Pelicula;
+import jrevilla.play.excepcion.PeliculaExistenteException;
 import jrevilla.play.plataforma.Plataforma;
 import jrevilla.play.plataforma.Usuario;
 import jrevilla.play.util.ScannerUtils;
@@ -57,7 +58,13 @@ public class Main {
                     int duracion = ScannerUtils.capturarNumero("Duración del contenido");
                     double calificacion = ScannerUtils.capturarDecimal("Calificación del contenido");
 
-                    plataforma.agregar( new Pelicula(nombre, duracion,genero, calificacion));
+                    try {
+                        plataforma.agregar( new Pelicula(nombre, duracion,genero, calificacion));
+                    } catch (PeliculaExistenteException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+
                 }
                 case MOSTRAR_TODO -> {
                     List<String> titulos = plataforma.getTitulos();

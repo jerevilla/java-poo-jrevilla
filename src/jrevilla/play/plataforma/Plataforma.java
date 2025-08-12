@@ -2,6 +2,7 @@ package jrevilla.play.plataforma;
 
 import jrevilla.play.contenido.Genero;
 import jrevilla.play.contenido.Pelicula;
+import jrevilla.play.excepcion.PeliculaExistenteException;
 
 import java.util.*;
 
@@ -15,6 +16,10 @@ public class Plataforma {
     }
 
     public void agregar(Pelicula elemento) {
+        Pelicula contenido = this.buscarPorTitulo(elemento.getTitulo());
+        if (contenido != null) {
+            throw new PeliculaExistenteException(elemento.getTitulo());
+        }
         this.contenido.add(elemento);
     }
 
