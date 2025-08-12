@@ -1,11 +1,9 @@
 package jrevilla.play.plataforma;
 
+import jrevilla.play.contenido.Genero;
 import jrevilla.play.contenido.Pelicula;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Plataforma {
     private String nombre;
@@ -38,9 +36,9 @@ public class Plataforma {
                 .orElse(null);
     }
 
-    public List<Pelicula> buscarPorGenero(String genero) {
+    public List<Pelicula> buscarPorGenero(Genero genero) {
         return contenido.stream()
-                .filter(contenido -> contenido.getGenero().equalsIgnoreCase(genero))
+                .filter(contenido -> contenido.getGenero().equals(genero))
                 .toList();
     }
 
@@ -48,6 +46,7 @@ public class Plataforma {
 
         return contenido.stream()
                 .sorted(Comparator.comparingDouble(Pelicula::getCalificacion).reversed())
+                .filter(pelicula -> pelicula.getCalificacion() >= 4)
                 .limit(cantidad)
                 .toList();
     }
@@ -56,6 +55,14 @@ public class Plataforma {
         return contenido.stream()
                 .mapToInt(Pelicula::getDuracion)
                 .sum();
+    }
+
+    public Optional<Pelicula> getMayorDuracion() {
+
+        Optional<Pelicula> max = contenido.stream()
+                .max(Comparator.comparingInt(Pelicula::getDuracion));
+        return max;
+
     }
 
     public String getNombre() {

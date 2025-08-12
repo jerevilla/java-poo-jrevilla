@@ -6,18 +6,18 @@ public class Pelicula {
     private String titulo;
     private String descripcion;
     private int duracion;
-    private String genero;
+    private Genero genero;
     private LocalDate fechaEstreno;
     //public int anioEstreno;
     private double calificacion;
     private boolean disponible;
 
-    public Pelicula(String titulo, int duracion, String genero, double calificacion) {
+    public Pelicula(String titulo, int duracion, Genero genero, double calificacion) {
         this(titulo, duracion, genero);
         this.calificar(calificacion);
     }
 
-    public Pelicula(String titulo, int duracion, String genero) {
+    public Pelicula(String titulo, int duracion, Genero genero) {
         this.titulo = titulo;
         this.duracion = duracion;
         this.genero = genero;
@@ -58,7 +58,7 @@ public class Pelicula {
         return fechaEstreno;
     }
 
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
 

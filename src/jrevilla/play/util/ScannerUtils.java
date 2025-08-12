@@ -1,5 +1,8 @@
 package jrevilla.play.util;
 
+import jrevilla.play.contenido.Genero;
+
+import java.util.Locale;
 import java.util.Scanner;
 
 public class ScannerUtils {
@@ -33,5 +36,24 @@ public class ScannerUtils {
         double dato = SCANNER.nextDouble();
         SCANNER.nextLine();
         return dato;
+    }
+
+    public static Genero capturarGenero(String mensaje) {
+        while (true) {
+            System.out.println(mensaje + "... Opciones: ");
+            for (Genero genero: Genero.values()){
+                System.out.println("-" + genero.name());
+            }
+
+            System.out.println("Cúal quieres? ");
+            String entrada = SCANNER.nextLine();
+
+
+            try {
+                return Genero.valueOf(entrada.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Género no aceptado.");
+            }
+        }
     }
 }
