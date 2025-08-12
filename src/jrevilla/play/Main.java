@@ -17,6 +17,7 @@ public class Main {
     public static final int MOSTRAR_TODO = 2;
     public static final int BUSCAR_POR_TITULO = 3;
     public static final int BUSCAR_POR_GENERO = 4;
+    public static final int VER_POPULARES = 5;
     public static final int ELIMINAR = 8;
     public static final int SALIR = 9;
 
@@ -30,13 +31,16 @@ public class Main {
 
         cargarPeliculas(plataforma);
 
+        System.out.println("Más de " + plataforma.getDuracionTotal() + " minutos de contenido");
+
         while(true) {
             int opcionElegida = ScannerUtils.capturarNumero("""
                     ============MENU==================
                         1. Agregar contenido          
                         2. Mostrar todo               
                         3. Buscar titulo 
-                        4. Buscar por Genero             
+                        4. Buscar por Genero  
+                        5. Ver populares    5       
                         8. Eliminar                   
                         9. Salir                      
                     ===================================
@@ -51,7 +55,10 @@ public class Main {
 
                     plataforma.agregar( new Pelicula(nombre, duracion,genero, calificacion));
                 }
-                case MOSTRAR_TODO -> plataforma.mostrarTitulos();
+                case MOSTRAR_TODO -> {
+                    List<String> titulos = plataforma.getTitulos();
+                    titulos.forEach(System.out::println);
+                }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturarTexto("Nombre del contenido a buscar: ");
                     Pelicula pelicula = plataforma.buscarPorTitulo(nombreBuscado);
@@ -67,6 +74,14 @@ public class Main {
                     List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
                     System.out.println(contenidoPorGenero.size() + " encontrados para el género " + generoBuscado);
                     contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()));
+                }
+                case VER_POPULARES -> {
+
+                    int cantidad = ScannerUtils.capturarNumero("Cantidad de resultados a mostrar ");
+
+                    List<Pelicula> contenidoPopulares = plataforma.getPopulares(cantidad);
+                    contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()));
+
                 }
                 case ELIMINAR -> {
                     String nombreAEliminar = ScannerUtils.capturarTexto("Nombre de la pelicula a eliminar: ");
