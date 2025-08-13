@@ -2,6 +2,7 @@ package jrevilla.play.plataforma;
 
 import jrevilla.play.contenido.Genero;
 import jrevilla.play.contenido.Pelicula;
+import jrevilla.play.contenido.ResumenContenido;
 import jrevilla.play.excepcion.PeliculaExistenteException;
 
 import java.util.*;
@@ -27,6 +28,12 @@ public class Plataforma {
 
         return contenido.stream()
                 .map(Pelicula::getTitulo)
+                .toList();
+    }
+
+    public List<ResumenContenido> getResumenes() {
+        return contenido.stream()
+                .map(c -> new ResumenContenido(c.getTitulo(), c.getDuracion(), c.getGenero()))
                 .toList();
     }
 

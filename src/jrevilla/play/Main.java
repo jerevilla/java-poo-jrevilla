@@ -2,6 +2,7 @@ package jrevilla.play;
 
 import jrevilla.play.contenido.Genero;
 import jrevilla.play.contenido.Pelicula;
+import jrevilla.play.contenido.ResumenContenido;
 import jrevilla.play.excepcion.PeliculaExistenteException;
 import jrevilla.play.plataforma.Plataforma;
 import jrevilla.play.plataforma.Usuario;
@@ -67,8 +68,8 @@ public class Main {
 
                 }
                 case MOSTRAR_TODO -> {
-                    List<String> titulos = plataforma.getTitulos();
-                    titulos.forEach(System.out::println);
+                    List<ResumenContenido> contenidoResumidos = plataforma.getResumenes();
+                    contenidoResumidos.forEach(resumen -> System.out.println(resumen.toString()));
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturarTexto("Nombre del contenido a buscar: ");
