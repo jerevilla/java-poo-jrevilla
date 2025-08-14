@@ -22,7 +22,8 @@ public class Main {
     public static final int BUSCAR_POR_TITULO = 3;
     public static final int BUSCAR_POR_GENERO = 4;
     public static final int VER_POPULARES = 5;
-    public static final int MAYO_DURACION = 6;
+    public static final int REPRODUCIR = 6;
+    public static final int MAYOR_DURACION = 7;
     public static final int ELIMINAR = 8;
     public static final int SALIR = 9;
 
@@ -46,7 +47,8 @@ public class Main {
                         3. Buscar titulo 
                         4. Buscar por Genero  
                         5. Ver populares
-                        6. Pelicula con mayor duración       
+                        6. Reproducir       
+                        7. Pelicula con mayor duración
                         8. Eliminar                   
                         9. Salir                      
                     ===================================
@@ -95,7 +97,18 @@ public class Main {
                     contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()));
 
                 }
-                case MAYO_DURACION -> {
+                case REPRODUCIR -> {
+                    String nombre = ScannerUtils.capturarTexto("Nombre del contenido a reproducir ");
+                    Pelicula contenido = plataforma.buscarPorTitulo(nombre);
+
+                    if (contenido != null) {
+                        plataforma.reproducir(contenido);
+                    } else {
+                        System.out.println(nombre + " no existe");
+                    }
+
+                }
+                case MAYOR_DURACION -> {
                     Optional<Pelicula> mayorDuracion = plataforma.getMayorDuracion();
                     System.out.println(mayorDuracion);
                 }
