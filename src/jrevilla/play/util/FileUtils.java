@@ -6,6 +6,7 @@ import jrevilla.play.contenido.Pelicula;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,24 @@ public class FileUtils {
     public static final String NOMBRE_ARCHIVO = "contenido.txt";
     public static final String SEPARADOR = "|";
 
+    public static void escribirContenido(Pelicula contenido) {
+        String linea = String.join(SEPARADOR,
+                contenido.getTitulo(),
+                String.valueOf(contenido.getDuracion()),
+                contenido.getGenero().name(),
+                String.valueOf(contenido.getCalificacion()),
+                contenido.getFechaEstreno().toString()
+        );
+        try {
+            Files.writeString(Paths.get(NOMBRE_ARCHIVO),
+                    linea + System.lineSeparator(),
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.out.println("Error escribiendo el archivo " + e);
+        }
+
+    }
     public static List<Pelicula> leerContenido() {
         List<Pelicula> contenidoDesdeArchivo = new ArrayList<>();
         try {

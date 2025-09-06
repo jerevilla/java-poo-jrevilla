@@ -4,6 +4,7 @@ import jrevilla.play.contenido.Genero;
 import jrevilla.play.contenido.Pelicula;
 import jrevilla.play.contenido.ResumenContenido;
 import jrevilla.play.excepcion.PeliculaExistenteException;
+import jrevilla.play.util.FileUtils;
 
 import java.util.*;
 
@@ -23,6 +24,7 @@ public class Plataforma {
         if (contenido != null) {
             throw new PeliculaExistenteException(elemento.getTitulo());
         }
+        FileUtils.escribirContenido(elemento);
         this.contenido.add(elemento);
     }
 
