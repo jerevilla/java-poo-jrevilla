@@ -21,7 +21,7 @@ public class Main {
     public static final int BUSCAR_POR_GENERO = 4;
     public static final int VER_POPULARES = 5;
     public static final int REPRODUCIR = 6;
-    public static final int MAYOR_DURACION = 7;
+    public static final int BUSCAR_POR_TIPO = 7;
     public static final int ELIMINAR = 8;
     public static final int SALIR = 9;
 
@@ -46,7 +46,7 @@ public class Main {
                         4. Buscar por Genero  
                         5. Ver populares
                         6. Reproducir       
-                        7. Pelicula con mayor duración
+                        7. Buscar Por Tipo de Contenido
                         8. Eliminar                   
                         9. Salir                      
                     ===================================
@@ -54,7 +54,7 @@ public class Main {
 
             switch (opcionElegida) {
                 case AGREGAR -> {
-                    int tipoContenido = ScannerUtils.capturarNumero("¿Qué tipo de contenido quieres agregar? 1. Pelicula\n 2. Documental");
+                    int tipoContenido = ScannerUtils.capturarNumero("¿Qué tipo de contenido quieres agregar? \n 1. Pelicula\n 2. Documental");
                     String nombre = ScannerUtils.capturarTexto("Nombre del contenido");
                     Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
                     int duracion = ScannerUtils.capturarNumero("Duración del contenido");
@@ -113,10 +113,22 @@ public class Main {
                     }
 
                 }
-                case MAYOR_DURACION -> {
+                case BUSCAR_POR_TIPO -> {
+                    int tipoDeContenido = ScannerUtils.capturarNumero("¿Qué tipo de contenido quieres agregar? \n 1. Pelicula \n 2. Documental");
+
+                    if (tipoDeContenido == 1) {
+                        List<Pelicula> peliculas = plataforma.getPeliculas();
+                        peliculas.forEach(pelicula -> System.out.println(pelicula.obtenerFichaTecnica() + "\n") );
+                    } else {
+                        List<Documental> documentales = plataforma.getDocumentales();
+                        documentales.forEach(documental -> System.out.println(documental.obtenerFichaTecnica() + "\n"));
+                    }
+
+                }
+                /*case MAYOR_DURACION -> {
                     Optional<Contenido> mayorDuracion = plataforma.getMayorDuracion();
                     System.out.println(mayorDuracion);
-                }
+                } */
                 case ELIMINAR -> {
                     String nombreAEliminar = ScannerUtils.capturarTexto("Nombre de la contenido a eliminar: ");
                     Contenido contenido = plataforma.buscarPorTitulo(nombreAEliminar);

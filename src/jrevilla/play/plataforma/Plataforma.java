@@ -1,8 +1,6 @@
 package jrevilla.play.plataforma;
 
-import jrevilla.play.contenido.Contenido;
-import jrevilla.play.contenido.Genero;
-import jrevilla.play.contenido.ResumenContenido;
+import jrevilla.play.contenido.*;
 import jrevilla.play.excepcion.PeliculaExistenteException;
 import jrevilla.play.util.FileUtils;
 
@@ -78,6 +76,20 @@ public class Plataforma {
                 .sorted(Comparator.comparingDouble(Contenido::getCalificacion).reversed())
                 .filter(pelicula -> pelicula.getCalificacion() >= 4)
                 .limit(cantidad)
+                .toList();
+    }
+
+    public List<Pelicula> getPeliculas(){
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Pelicula)
+                .map(contenidoFiltrado -> (Pelicula)contenidoFiltrado)
+                .toList();
+    }
+
+    public List<Documental> getDocumentales(){
+        return contenido.stream()
+                .filter(contenido -> contenido instanceof Documental)
+                .map(contenidoFiltrado -> (Documental)contenidoFiltrado)
                 .toList();
     }
 
