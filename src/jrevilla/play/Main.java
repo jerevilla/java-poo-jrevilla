@@ -1,19 +1,11 @@
 package jrevilla.play;
 
-import jrevilla.play.contenido.Genero;
-import jrevilla.play.contenido.Pelicula;
-import jrevilla.play.contenido.ResumenContenido;
+import jrevilla.play.contenido.*;
 import jrevilla.play.excepcion.PeliculaExistenteException;
 import jrevilla.play.plataforma.Plataforma;
-import jrevilla.play.plataforma.Usuario;
 import jrevilla.play.util.FileUtils;
 import jrevilla.play.util.ScannerUtils;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,13 +54,20 @@ public class Main {
 
             switch (opcionElegida) {
                 case AGREGAR -> {
+                    int tipoContenido = ScannerUtils.capturarNumero("¿Qué tipo de contenido quieres agregar? 1. Pelicula\n 2. Documental");
                     String nombre = ScannerUtils.capturarTexto("Nombre del contenido");
                     Genero genero = ScannerUtils.capturarGenero("Genero del contenido");
                     int duracion = ScannerUtils.capturarNumero("Duración del contenido");
                     double calificacion = ScannerUtils.capturarDecimal("Calificación del contenido");
 
                     try {
-                        plataforma.agregar( new Pelicula(nombre, duracion,genero, calificacion));
+                        if (tipoContenido == 1 ){
+                            plataforma.agregar( new Pelicula(nombre, duracion,genero, calificacion));
+                        } else {
+                            String narrador = ScannerUtils.capturarTexto("Narrador del Documental ");
+                            plataforma.agregar( new Documental(nombre, duracion,genero, calificacion, narrador));
+                        }
+
                     } catch (PeliculaExistenteException e) {
                         System.out.println(e.getMessage());
                     }
@@ -81,9 +80,9 @@ public class Main {
                 }
                 case BUSCAR_POR_TITULO -> {
                     String nombreBuscado = ScannerUtils.capturarTexto("Nombre del contenido a buscar: ");
-                    Pelicula pelicula = plataforma.buscarPorTitulo(nombreBuscado);
-                    if (pelicula != null ) {
-                        System.out.println(pelicula.obtenerFichaTecnica());
+                    Contenido contenido = plataforma.buscarPorTitulo(nombreBuscado);
+                    if (contenido != null ) {
+                        System.out.println(contenido.obtenerFichaTecnica());
                     } else {
                         System.out.println(nombreBuscado + " no existe dentro de " + plataforma.getNombre());
                     }
@@ -91,7 +90,7 @@ public class Main {
                 case BUSCAR_POR_GENERO -> {
                     Genero generoBuscado = ScannerUtils.capturarGenero("Género del contenido a buscar");
 
-                    List<Pelicula> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
+                    List<Contenido> contenidoPorGenero = plataforma.buscarPorGenero(generoBuscado);
                     System.out.println(contenidoPorGenero.size() + " encontrados para el género " + generoBuscado);
                     contenidoPorGenero.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()));
                 }
@@ -99,13 +98,13 @@ public class Main {
 
                     int cantidad = ScannerUtils.capturarNumero("Cantidad de resultados a mostrar ");
 
-                    List<Pelicula> contenidoPopulares = plataforma.getPopulares(cantidad);
+                    List<Contenido> contenidoPopulares = plataforma.getPopulares(cantidad);
                     contenidoPopulares.forEach(contenido -> System.out.println(contenido.obtenerFichaTecnica()));
 
                 }
                 case REPRODUCIR -> {
                     String nombre = ScannerUtils.capturarTexto("Nombre del contenido a reproducir ");
-                    Pelicula contenido = plataforma.buscarPorTitulo(nombre);
+                    Contenido contenido = plataforma.buscarPorTitulo(nombre);
 
                     if (contenido != null) {
                         plataforma.reproducir(contenido);
@@ -115,12 +114,12 @@ public class Main {
 
                 }
                 case MAYOR_DURACION -> {
-                    Optional<Pelicula> mayorDuracion = plataforma.getMayorDuracion();
+                    Optional<Contenido> mayorDuracion = plataforma.getMayorDuracion();
                     System.out.println(mayorDuracion);
                 }
                 case ELIMINAR -> {
-                    String nombreAEliminar = ScannerUtils.capturarTexto("Nombre de la pelicula a eliminar: ");
-                    Pelicula contenido = plataforma.buscarPorTitulo(nombreAEliminar);
+                    String nombreAEliminar = ScannerUtils.capturarTexto("Nombre de la contenido a eliminar: ");
+                    Contenido contenido = plataforma.buscarPorTitulo(nombreAEliminar);
                     if (contenido != null) {
                         plataforma.eliminar(contenido);
                         System.out.println(nombreAEliminar + " eliminado! ");
