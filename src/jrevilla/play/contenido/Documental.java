@@ -13,6 +13,11 @@ public class Documental extends Contenido {
         this.narrador = narrador;
     }
 
+    @Override
+    public void reproducir() {
+        System.out.println("Reproduciendo el documento " + getTitulo() + " narrado por " + getNarrador());
+    }
+
     public String getNarrador() {
         return narrador;
     }
